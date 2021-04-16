@@ -12,8 +12,8 @@ MKR OR "asian drive" OR feminazi OR immigrant OR nigger OR sjw OR WomenAgainstFe
 blameonenotall OR "islam terrorism" OR notallmen OR victimcard OR "victim card" OR "arab terror" OR 
 "gamergate" OR jsil OR racecard OR "race card" -filter:retweets
 '''
-date_start = "2021-04-13"
-date_end = "2021-04-14"
+date_start = "2021-04-14"
+date_end = "2021-04-15"
 
 # Collect tweets
 tweets = tw.Cursor(api.search,
