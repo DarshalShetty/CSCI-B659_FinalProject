@@ -19,18 +19,21 @@ different distribution of original hashtags).
 - Install the dependencies from ```requirements.txt``` in a virtual
  environment or globally using the command ```pip install -r requirements.txt```
 - In order to fetch Tweets through Twitter API, a ```credentials.py``` file
-  is needed and it needs the following variables with string values to be
-  defined:
-    - ```consumer_key```
-    - ```consumer_secret```
+  is needed and it must never be committed to git. The file needs the following
+  variables with string values to be defined:
+    - ```consumer_key``` (a.k.a. API Key)
+    - ```consumer_secret``` (a.k.a. API Secret)
     - ```access_token```
     - ```access_token_secret```
     
 ## Scripts
 
 ### ```retrieve_tweets.py```
-This script uses Twitter API to fetch tweets matching a certain search query. 
-The fetched Tweets are stored in a CSV file in the ```Data``` folder. No
+This script uses Twitter API to fetch all tweets matching a certain search
+query (specified by ```search_query``` variable) within a time range
+(specified by ```date_start``` and ```date_end``` variables). The fetched Tweets 
+are stored in a CSV file in the ```Data ``` folder. A stratified sample of
+these tweets will then be extracted for annotating as our test set . No 
 arguments are needed to be passed while running this script. This script 
 requires the ```credentials.py``` file mentioned in the installation section for
 accessing the Twitter API.
