@@ -6,6 +6,7 @@ Created on Thu Mar 11 19:36:03 2021
 """
 
 # Imports
+import csv
 import re  # import regex
 from sklearn.feature_extraction.text import CountVectorizer  # count vectorizer
 from sklearn import svm
@@ -122,6 +123,22 @@ pred2021 = grid.predict(test2021X)
 
 print('*' * 25 + "testing 2021 data" + '*' * 25)
 print(classification_report(test2021Y, pred2021))
+
+# output test and predicted labels to csv
+output_dir = "Data/outputs/"
+output_run_name = "char_n-gram_4_to_7"
+
+with open("{}{}_waseem.csv".format(output_dir, output_run_name), 'w') as waseem_csv:
+    w = csv.writer(waseem_csv)
+    w.writerow(("test_tweet", "actual_label", "predicted_label"))
+    for i in range(len(testXSplit)):
+        w.writerow((testXSplit[i], testY[i], pred[i]))
+
+with open("{}{}_2021.csv".format(output_dir, output_run_name), 'w') as tweets_2021_csv:
+    w = csv.writer(tweets_2021_csv)
+    w.writerow(("test_tweet", "actual_label", "predicted_label"))
+    for i in range(len(test2021XSplit)):
+        w.writerow((test2021XSplit[i], test2021Y[i], pred2021[i]))
 
 '''vectorizer check-in tools'''
 # print(vectorizer.vocabulary_)
