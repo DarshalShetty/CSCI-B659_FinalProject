@@ -6,12 +6,11 @@ Created on Thu Mar 11 19:36:03 2021
 """
 
 # Imports
-# import numpy as np
-# from nltk.util import ngrams
 import re  # import regex
 from sklearn.feature_extraction.text import CountVectorizer  # count vectorizer
 from sklearn import svm
 from sklearn.metrics import classification_report
+from sklearn.model_selection import GridSearchCV
 
 
 def deEmojify(text):
@@ -67,7 +66,7 @@ testXPreSplit = cleanitup(fileInTestX)
 testXSplit = testXPreSplit.splitlines()
 
 # vectorize and fit train file, can change ngram range here
-vectorizer = CountVectorizer(analyzer='word', ngram_range=(1, 3))
+vectorizer = CountVectorizer(analyzer='char', ngram_range=(4, 7))
 # tokenize and build vocab
 trainX = vectorizer.fit_transform(trainXSplit)
 
@@ -88,12 +87,41 @@ fileInTestY = file.read()
 testY = fileInTestY.splitlines()
 
 # below line is where settings can be changed
-clf = svm.SVC(kernel='rbf', degree=2, coef0=5, C=0.5)
-clf.fit(trainX, trainY)
+param_grid = {'C': [0.1, 1, 10, 100],
+              'degree': [2, 3, 4],
+              'gamma': ['scale', 'auto'],
+              'kernel': ['linear', 'poly', 'rbf']}
 
-pred = clf.predict(testX)
+grid = GridSearchCV(svm.SVC(), param_grid)
 
+grid.fit(trainX, trainY)
+
+# print the best params after doing grid search
+print(grid.best_params_)
+
+pred = grid.predict(testX)
+
+print('*' * 25 + "testing 2016 data" + '*' * 25)
 print(classification_report(testY, pred))
+
+# testing new data from 2021
+
+file = open('Data/2021_test_data/2021test.txt', encoding="utf8")
+fileInTest2021X = file.read()
+test2021XPreSplit = cleanitup(fileInTest2021X)
+test2021XSplit = test2021XPreSplit.splitlines()
+
+test2021X = vectorizer.transform(test2021XSplit)
+
+file = open("Data/2021_test_data/2021testgold.txt", encoding="utf8")
+fileInTest2021Y = file.read()
+
+test2021Y = fileInTest2021Y.splitlines()
+
+pred2021 = clf.predict(test2021X)
+
+print('*' * 25 + "testing 2021 data" + '*' * 25)
+print(classification_report(test2021Y, pred2021))
 
 '''vectorizer check-in tools'''
 # print(vectorizer.vocabulary_)
