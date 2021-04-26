@@ -92,7 +92,7 @@ param_grid = {'C': [0.1, 1, 10, 100],
               'gamma': ['scale', 'auto'],
               'kernel': ['linear', 'poly', 'rbf']}
 
-grid = GridSearchCV(svm.SVC(), param_grid)
+grid = GridSearchCV(svm.SVC(), param_grid, n_jobs=-1, refit=True, verbose=4)
 
 grid.fit(trainX, trainY)
 
@@ -118,7 +118,7 @@ fileInTest2021Y = file.read()
 
 test2021Y = fileInTest2021Y.splitlines()
 
-pred2021 = clf.predict(test2021X)
+pred2021 = grid.predict(test2021X)
 
 print('*' * 25 + "testing 2021 data" + '*' * 25)
 print(classification_report(test2021Y, pred2021))
